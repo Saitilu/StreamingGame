@@ -20,7 +20,7 @@ public class HealthPickup : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        //if the player touches the gold
+        //if the player touches the health
         if (col.tag == "Health")
         {
             audioSource.clip = pickup;
@@ -36,7 +36,7 @@ public class HealthPickup : MonoBehaviour
                 PlayerManager.currentHealth += health;
                 healthBar.SetHealth(PlayerManager.currentHealth += health);
             }
-            Destroy(col.transform.parent.gameObject); //remove the gold from the scene
+            Destroy(col.transform.parent.gameObject); //remove the health from the scene
         }
     }
 }

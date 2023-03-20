@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter2D (Collision2D collision) //called when one objects collider makes contact with another
     {
-        if (collision.gameObject.name == "Player") //if the collision is with Miguel
+        if (collision.gameObject.name == "Player") //if the collision is with the player
         {          
             player.TakeEnemyDamage(enemyDamage);          
         }           
@@ -37,8 +37,10 @@ public class Enemy : MonoBehaviour
         anim.SetTrigger("IsHit");
         currentHealth -= damage; //damage is taken from health0
         healthBar.SetHealth(currentHealth);
-        //audioSource.clip = enemyHit;
-        //audioSource.Play();      
+
+        //play hit audio
+        audioSource.clip = enemyHit;
+        audioSource.Play();      
 
         if (currentHealth <= 0) //if health becomes 0
         {

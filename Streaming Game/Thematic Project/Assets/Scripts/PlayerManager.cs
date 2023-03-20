@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static int maxHealth = 100; //Miguels max health
-    public static int currentHealth; //Miguels current health
+    public static int maxHealth = 100;
+    public static int currentHealth;
     public Animator anim; 
     public HealthBar healthBar; //reference to the health bar script
     public AudioSource audioSource;
@@ -23,9 +23,11 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeEnemyDamage(int damage)
     {
+        //play hit audio
         audioSource.clip = hit;
         audioSource.Play();
 
+        //play hit animation
         anim.SetTrigger("IsHit");
         currentHealth -= damage; //damage is taken from health
 
@@ -39,8 +41,11 @@ public class PlayerManager : MonoBehaviour
 
     void Die()
     {
+        //play death audio
         audioSource.clip = death;
         audioSource.Play();
+
+        //load game over scene
         SceneManager.LoadScene("GAMEOVER");
     }
 }
