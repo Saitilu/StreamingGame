@@ -51,6 +51,10 @@ public class TwitchLinker : MonoBehaviour
         {
             string message = reader.ReadLine(); //read the message
             print(message);
+
+            if(message == "!summon"){
+                
+            }
         }
     }
 }
