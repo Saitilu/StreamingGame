@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Health Bar")]
     public static int maxHealth; 
-    public int currentHealth;
+    private int currentHealth;
     public HealthBar healthBar;
     public static int enemyDamage;
-    public static int enemyScore;
     public PlayerManager player;
+
+    [Header("Score")]
+    public static int enemyScore;
+
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip enemyHit;
     public AudioClip enemyDeath;
+
+    [Header("Animation")]
     public Animator anim;
-    public static int enemyDeaths;
+
+    [Header("Movement")]
+    public int speed;
          
+    public static int enemyDeaths;
     void Start()
     {
         currentHealth = maxHealth;
@@ -23,6 +33,16 @@ public class Enemy : MonoBehaviour
 
         player = GameObject.Find("Player").GetComponent<PlayerManager>();
     } 
+
+    void Update(){
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+
+        // Check if the asteroid is outside of the screen bounds
+        if (screenPos.y < 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void OnCollisionEnter2D (Collision2D collision) //called when one objects collider makes contact with another
     {
