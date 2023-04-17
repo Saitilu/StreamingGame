@@ -434,7 +434,7 @@ MonoBehaviour:
   speedMax: 5
   dirMin: -45
   dirMax: 45
-  spawnInterval: 0.5
+  spawnInterval: 1
 --- !u!4 &778021429
 Transform:
   m_ObjectHideFlags: 0

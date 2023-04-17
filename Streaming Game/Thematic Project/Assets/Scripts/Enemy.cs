@@ -25,17 +25,28 @@ public class Enemy : MonoBehaviour
     [Header("Movement")]
     public int speed;
          
+    [Header("Spinning")]   
+    public float maxSpinSpeed = 360f;
+    private Rigidbody2D rb2d;
+    private float spinSpeed;
+
     public static int enemyDeaths;
+    
     void Start()
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
 
         player = GameObject.Find("Player").GetComponent<PlayerManager>();
+
+        rb2d = GetComponent<Rigidbody2D>();
+        spinSpeed = Random.Range(-maxSpinSpeed, maxSpinSpeed);
     } 
 
     void Update(){
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+
+        transform.Rotate(Vector3.forward, spinSpeed * Time.deltaTime);
 
         // Check if the asteroid is outside of the screen bounds
         if (screenPos.y < 0f)
