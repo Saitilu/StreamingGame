@@ -5,45 +5,44 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Header("Health Bar")]
-    public static int maxHealth; 
+    [SerializeField] static int maxHealth;
     private int currentHealth;
-    public HealthBar healthBar;
-    public static int enemyDamage;
-    public PlayerManager player;
+    [SerializeField] static int enemyDamage;
+    [SerializeField] PlayerManager player;
 
     [Header("Score")]
-    public static int enemyScore;
+    [SerializeField] static int enemyScore;
 
     [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip enemyHit;
-    public AudioClip enemyDeath;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip enemyHit;
+    [SerializeField] AudioClip enemyDeath;
 
     [Header("Animation")]
-    public Animator anim;
+    [SerializeField] Animator anim;
 
     [Header("Movement")]
-    public int speed;
-         
-    [Header("Spinning")]   
-    public float maxSpinSpeed = 360f;
+    [SerializeField] float speed;
+
+    [Header("Spinning")]
+    [SerializeField] float maxSpinSpeed;
     private Rigidbody2D rb2d;
     private float spinSpeed;
 
     public static int enemyDeaths;
-    
+
     void Start()
     {
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
 
         player = GameObject.Find("Player").GetComponent<PlayerManager>();
 
         rb2d = GetComponent<Rigidbody2D>();
         spinSpeed = Random.Range(-maxSpinSpeed, maxSpinSpeed);
-    } 
+    }
 
-    void Update(){
+    void Update()
+    {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
         transform.Rotate(Vector3.forward, spinSpeed * Time.deltaTime);
@@ -55,23 +54,23 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D (Collision2D collision) //called when one objects collider makes contact with another
+    void OnCollisionEnter2D(Collision2D collision) //called when one objects collider makes contact with another
     {
-        if (collision.gameObject.name == "Player") //if the collision is with the player
-        {          
-            player.TakeEnemyDamage(enemyDamage);          
-        }           
+        if (collision.gameObject.tag == "Bullet") //if the collision is with the player
+        {
+            //player.TakeEnemyDamage(enemyDamage);
+            Die();
+        }
     }
 
     public void TakeDamage(int damage) //public method so that it can be used in the other script
     {
         anim.SetTrigger("IsHit");
         currentHealth -= damage; //damage is taken from health0
-        healthBar.SetHealth(currentHealth);
 
         //play hit audio
         audioSource.clip = enemyHit;
-        audioSource.Play();      
+        audioSource.Play();
 
         if (currentHealth <= 0) //if health becomes 0
         {

@@ -7,18 +7,46 @@ public class PlayerManager : MonoBehaviour
 {
     public static int maxHealth = 100;
     public static int currentHealth;
-    public Animator anim; 
-    public HealthBar healthBar; //reference to the health bar script
-    public AudioSource audioSource;
-    public AudioSource dialogueSource;
-    public AudioClip hit;
-    public AudioClip death;
+    [SerializeField] Animator anim;
+    [SerializeField] HealthBar healthBar; //reference to the health bar script
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource dialogueSource;
+    [SerializeField] AudioClip hit;
+    [SerializeField] AudioClip death;
+
+    Rigidbody2D rigidbody;
+    float turnSpeed = 150;
+    float speed = 75;
+
+    [SerializeField] GameObject bulletPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
+        rigidbody = GetComponent<Rigidbody2D>();
+
         currentHealth = maxHealth; //set the current health the max health
         healthBar.SetMaxHealth(maxHealth); //set the health bars max health through the SetMaxHealth method
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            Transform shooter = transform.Find("Shooter");
+            Instantiate(bulletPrefab, shooter.position, transform.rotation * Quaternion.Euler(0, 0, 180));
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        //turn
+        float turn = -Input.GetAxis("Horizontal") * Time.fixedDeltaTime * turnSpeed;
+        rigidbody.rotation += turn;
+
+        //movement force
+        float force = Mathf.Max(0, Input.GetAxis("Vertical")) * Time.fixedDeltaTime * speed;
+        rigidbody.AddForce(-transform.up * force);
     }
 
     public void TakeEnemyDamage(int damage)

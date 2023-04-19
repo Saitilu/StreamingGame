@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class SpawnEnemy : MonoBehaviour
 {
-    public GameObject enemy;
+    [SerializeField] GameObject enemy;
 
     [Header("X Axis Spawn Value")]
-    public int xMin;
-    public int xMax;
+    [SerializeField] int xMin;
+    [SerializeField] int xMax;
 
     [Header("Speed")]
-    public int speedMin;
-    public int speedMax;
+    [SerializeField] float speedMin;
+    [SerializeField] float speedMax;
 
     [Header("Direction")]
-    public int dirMin;
-    public int dirMax;
+    [SerializeField] int dirMin;
+    [SerializeField] int dirMax;
 
     [Header("Spawn Times")]
     private float nextSpawnTime;
-    public float spawnInterval;
+    [SerializeField] float spawnInterval;
     
     void Update(){
         if (Time.time > nextSpawnTime)
