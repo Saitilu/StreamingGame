@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] GameObject bulletPrefab;
+
     [Header("Health Bar")]
     [SerializeField] static int maxHealth;
     private int currentHealth;
     [SerializeField] static int enemyDamage;
-    [SerializeField] PlayerManager player;
+    [SerializeField] PlayerManager playerScript;
 
     [Header("Score")]
     [SerializeField] static int enemyScore;
@@ -31,14 +33,21 @@ public class Enemy : MonoBehaviour
 
     public static int enemyDeaths;
 
+    float timeTillNextShot;
+    Transform playerTransform;
+
+    [SerializeField] Vector3 shotDirection;
     void Start()
     {
         currentHealth = maxHealth;
 
-        player = GameObject.Find("Player").GetComponent<PlayerManager>();
+        playerTransform = GameObject.Find("Player").GetComponent<Transform>();
+        playerScript = GameObject.Find("Player").GetComponent<PlayerManager>();
 
         rb2d = GetComponent<Rigidbody2D>();
         spinSpeed = Random.Range(-maxSpinSpeed, maxSpinSpeed);
+
+        timeTillNextShot = Random.RandomRange(1.5f, 3.5f);
     }
 
     void Update()
@@ -54,14 +63,44 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision) //called when one objects collider makes contact with another
+    private void FixedUpdate()
     {
-        if (collision.gameObject.tag == "Bullet") //if the collision is with the player
+        timeTillNextShot -= Time.fixedDeltaTime;
+        if (timeTillNextShot <= 0)
         {
-            //player.TakeEnemyDamage(enemyDamage);
+            timeTillNextShot = Random.RandomRange(1.5f, 3.5f);
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        //shotDirection = playerTransform.position - transform.position ;
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, playerTransform.position - transform.position);
+        //if (hit.collider.tag == "Enemy")
+        //{
+        //    Debug.Log(hit.collider.tag);
+        //    return;
+        //}
+
+        //shot position
+        shotDirection = (playerTransform.position - transform.position).normalized * 1.2f;
+        Vector3 shooter = transform.position + shotDirection;
+        //shot rotation
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, shotDirection);
+        //make shot
+        GameObject shot = Instantiate(bulletPrefab, shooter, rotation);
+        shot.GetComponent<Bullet>().speed = 5;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bullet") //if the collision is with a bullet
+        {
+            Destroy(collision.gameObject);
             Die();
         }
     }
+
 
     public void TakeDamage(int damage) //public method so that it can be used in the other script
     {

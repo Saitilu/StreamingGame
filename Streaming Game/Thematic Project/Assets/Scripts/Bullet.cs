@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    float speed = 10;
+    public float speed = 10;
     Rigidbody2D rigidbody;
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        rigidbody.velocity = transform.up * speed;
+        
     }
     private void Update()
     {
+        rigidbody.velocity = transform.up * speed;
         if (OffScreen())
             Destroy(gameObject);
     }

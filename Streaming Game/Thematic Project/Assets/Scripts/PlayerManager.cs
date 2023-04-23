@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static int maxHealth = 100;
     public static int currentHealth;
-    [SerializeField] Animator anim;
+    //[SerializeField] Animator anim;
     [SerializeField] HealthBar healthBar; //reference to the health bar script
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource dialogueSource;
@@ -49,6 +49,15 @@ public class PlayerManager : MonoBehaviour
         rigidbody.AddForce(-transform.up * force);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bullet") //if the collision is with a bullet
+        {
+            Destroy(collision.gameObject);
+            TakeEnemyDamage(5);
+        }
+    }
+
     public void TakeEnemyDamage(int damage)
     {
         //play hit audio
@@ -56,7 +65,7 @@ public class PlayerManager : MonoBehaviour
         audioSource.Play();
 
         //play hit animation
-        anim.SetTrigger("IsHit");
+        //anim.SetTrigger("IsHit");
         currentHealth -= damage; //damage is taken from health
 
         healthBar.SetHealth(currentHealth); //set the healthbar health to the current health

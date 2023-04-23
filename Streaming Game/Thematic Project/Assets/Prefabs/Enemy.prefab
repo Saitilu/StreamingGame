@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 808703044187051577}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eff0de2214f713419316cf2ff5d8811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  bulletPrefab: {fileID: 6601250750538448139, guid: 2683edc62eab5e54999c0956cd06a32a,
+    type: 3}
+  playerScript: {fileID: 0}
   audioSource: {fileID: 808703044187051577}
   enemyHit: {fileID: 0}
   enemyDeath: {fileID: 0}
