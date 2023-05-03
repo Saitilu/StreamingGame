@@ -73,6 +73,7 @@ public class PlayerManager : MonoBehaviour
         if (currentHealth <= 0) //if health becomes 0
         {
             Die(); //call the die function
+            ScoreManager.score += 100;
         }
     }
 
