@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static int maxHealth = 100;
-    public static int currentHealth;
+    public static int maxHealth = 20;
+    [SerializeField] public int currentHealth;
     //[SerializeField] Animator anim;
     [SerializeField] HealthBar healthBar; //reference to the health bar script
     [SerializeField] AudioSource audioSource;
@@ -26,7 +26,6 @@ public class PlayerManager : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
 
         currentHealth = maxHealth; //set the current health the max health
-        healthBar.SetMaxHealth(maxHealth); //set the health bars max health through the SetMaxHealth method
     }
 
     private void Update()
@@ -54,7 +53,7 @@ public class PlayerManager : MonoBehaviour
         if (collision.gameObject.tag == "Bullet") //if the collision is with a bullet
         {
             Destroy(collision.gameObject);
-            TakeEnemyDamage(5);
+            TakeEnemyDamage(1);
         }
     }
 
@@ -73,7 +72,6 @@ public class PlayerManager : MonoBehaviour
         if (currentHealth <= 0) //if health becomes 0
         {
             Die(); //call the die function
-            ScoreManager.score += 100;
         }
     }
 

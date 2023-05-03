@@ -5,15 +5,12 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider slider; //reference to the slider
+    [SerializeField] int hp;
+    [SerializeField] Sprite[] sprites;
 
-    public void SetMaxHealth(int health) //method to set max health of the slider
-    {
-        slider.maxValue = health;
-        slider.value = health;
-    }
     public void SetHealth(int health) //method to set the current health of the slider
     {
-        slider.value = health;
+        hp = health;
+        GetComponent<SpriteRenderer>().sprite = sprites[(int)(hp/ 2)];
     }
 }
