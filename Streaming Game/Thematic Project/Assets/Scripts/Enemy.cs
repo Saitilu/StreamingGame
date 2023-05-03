@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject canvas;
+    [SerializeField] Transform viewerName;
 
     [Header("Health Bar")]
     [SerializeField] static int maxHealth;
@@ -37,6 +40,12 @@ public class Enemy : MonoBehaviour
     Transform playerTransform;
 
     [SerializeField] Vector3 shotDirection;
+
+    public void SetName(string newName)
+    {
+        TextMeshPro text = viewerName.GetComponent<TextMeshPro>();
+        text.text = newName;
+    }
     void Start()
     {
         currentHealth = maxHealth;
@@ -46,6 +55,9 @@ public class Enemy : MonoBehaviour
 
         rb2d = GetComponent<Rigidbody2D>();
         spinSpeed = Random.Range(-maxSpinSpeed, maxSpinSpeed);
+
+        //viewerName.transform.SetParent(transform.Find("Enemy Canvas"));
+        //Destroy(canvas);
 
         timeTillNextShot = Random.RandomRange(1.5f, 3.5f);
     }
@@ -61,6 +73,10 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        //move name
+        viewerName.position = transform.position + new Vector3(0, .75f, 0);
+        viewerName.rotation = Quaternion.identity;
     }
 
     private void FixedUpdate()

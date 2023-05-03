@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Net.Sockets;
 using System.IO;
@@ -14,6 +15,8 @@ using System.IO;
 
 public class TwitchLinker : MonoBehaviour
 {
+    public UnityEvent<string> Spawn;
+
     TcpClient twitch;
     StreamReader reader;
     StreamWriter writer;
@@ -25,6 +28,8 @@ public class TwitchLinker : MonoBehaviour
     string oAuth = "oauth:o1ocblxdj31vmm7iqc38i09oe8rtnt";
 
     [SerializeField] InputField inputField;
+
+    float PingCounter = 0;
 
     private void ConnectToTwitch()
     {
@@ -53,6 +58,15 @@ public class TwitchLinker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PingCounter += Time.deltaTime;
+        if (PingCounter > 60)
+        {
+            writer.WriteLine("PING " + URL);
+            writer.Flush();
+            PingCounter = 0;
+        }
+        if (!twitch.Connected)
+            ConnectToTwitch();
         if (twitch.Available > 0) //if tcp has new data
         {
             string message = reader.ReadLine(); //read the message
@@ -61,9 +75,19 @@ public class TwitchLinker : MonoBehaviour
                 DontDestroyOnLoad(this.gameObject);
                 SceneManager.LoadScene("Game");
             }
+            if (message.Contains("PRIVMSG"))
+            {
+                int splitPoint = message.IndexOf("!");
+                string chatter = message.Substring(1, splitPoint - 1);
+
+                splitPoint = message.IndexOf(":", 1);
+                string pureChatMessage = message.Substring(splitPoint + 1);
+
+                if (pureChatMessage.Substring(0, 7) == "balloon")
+                    Spawn?.Invoke(chatter);
+            }
+
             Debug.Log(message);
-
-
         }
     }
 }

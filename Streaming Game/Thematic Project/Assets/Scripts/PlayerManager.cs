@@ -84,6 +84,6 @@ public class PlayerManager : MonoBehaviour
         audioSource.Play();
 
         //load game over scene
-        SceneManager.LoadScene("GAMEOVER");
+        SceneManager.LoadScene("InputAccount");
     }
 }
