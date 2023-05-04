@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 
@@ -137,7 +138,22 @@ public class Enemy : MonoBehaviour
     {
         enemyDeaths++;
 
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+        viewerName.gameObject.SetActive(false);
+        timeTillNextShot = 10f;
+
+        //play hit audio
+        audioSource.clip = enemyDeath;
+        audioSource.Play();
+        Invoke("Death", audioSource.clip.length);
+        
+
         ScoreManager.score += enemyScore; //add enemy score to score manager
+        //Destroy(gameObject);
+    }
+    void Death()
+    {
         Destroy(gameObject);
     }
 }

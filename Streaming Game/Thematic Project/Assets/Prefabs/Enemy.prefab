@@ -326,8 +326,8 @@ MonoBehaviour:
   viewerName: {fileID: 8720290244303538203}
   playerScript: {fileID: 0}
   audioSource: {fileID: 808703044187051577}
-  enemyHit: {fileID: 0}
-  enemyDeath: {fileID: 0}
+  enemyHit: {fileID: 8300000, guid: 15397c03b867e0d4ebbac3b543b08539, type: 3}
+  enemyDeath: {fileID: 8300000, guid: 15397c03b867e0d4ebbac3b543b08539, type: 3}
   anim: {fileID: 0}
   speed: 0
   maxSpinSpeed: 50
@@ -343,8 +343,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
