@@ -65,6 +65,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        ScoreManager.score = enemyDeaths * 100;
+
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
         transform.Rotate(Vector3.forward, spinSpeed * Time.deltaTime);
